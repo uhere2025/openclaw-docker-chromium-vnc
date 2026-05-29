@@ -1,0 +1,18 @@
+services:
+  openclaw-agent:
+    build: .
+    container_name: openclaw-agent
+    ports:
+      - "18790:18789"
+      - "127.0.0.1:6080:6080"
+    volumes:
+      - ./agent/config:/home/node/.openclaw
+      - ./agent/workspace:/home/node/workspace
+    environment:
+      - OPENCLAW_LLM_TIMEOUT=600000
+      - VNC_PASSWORD=${VNC_PASSWORD:?set VNC_PASSWORD in .env}
+      - VNC_GEOMETRY=1280x800x24
+    restart: unless-stopped
+
+# docker exec -it openclaw-agent openclaw configure
+# docker compose up -d --force-recreate

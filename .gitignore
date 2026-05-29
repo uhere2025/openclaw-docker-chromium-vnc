@@ -1,0 +1,16 @@
+# Runtime state, credentials, and workspace data — not tracked
+agent/config/
+agent/workspace/
+
+# Claude Code local overrides (shared settings.json stays tracked)
+.claude/settings.local.json
+
+# Env files (Compose auto-loads .env); keep the example template tracked
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
