@@ -1,6 +1,9 @@
 # Runtime state, credentials, and workspace data — not tracked
+# (default single-instance paths plus per-instance subdirs: agent/<name>/{config,workspace})
 agent/config/
 agent/workspace/
+agent/*/config/
+agent/*/workspace/
 
 # Claude Code local overrides (shared settings.json stays tracked)
 .claude/settings.local.json

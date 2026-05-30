@@ -1,18 +1,23 @@
+name: openclaw
 services:
-  openclaw-agent:
+  chromium-vnc:
     build: .
-    container_name: openclaw-agent
     ports:
-      - "18790:18789"
-      - "127.0.0.1:6080:6080"
+      - "${AGENT_PORT:-18790}:18789"
+      - "127.0.0.1:${VNC_PORT:-6080}:6080"
     volumes:
-      - ./agent/config:/home/node/.openclaw
-      - ./agent/workspace:/home/node/workspace
+      - ${CONFIG_DIR:-./agent/config}:/home/node/.openclaw
+      - ${WORKSPACE_DIR:-./agent/workspace}:/home/node/workspace
     environment:
       - OPENCLAW_LLM_TIMEOUT=600000
       - VNC_PASSWORD=${VNC_PASSWORD:?set VNC_PASSWORD in .env}
       - VNC_GEOMETRY=1280x800x24
     restart: unless-stopped
 
-# docker exec -it openclaw-agent openclaw configure
-# docker compose up -d --force-recreate
+# Single instance:   docker compose up -d --force-recreate
+#                    docker compose exec chromium-vnc openclaw configure
+# Multiple instances: pick a project name with -p, plus unique ports and state dirs
+#   AGENT_PORT=18791 VNC_PORT=6081 \
+#   CONFIG_DIR=./agent/inst-b/config WORKSPACE_DIR=./agent/inst-b/workspace \
+#   docker compose -p inst-b up -d
+#   docker compose -p inst-b exec chromium-vnc openclaw configure
