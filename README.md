@@ -1,4 +1,4 @@
-# openclaw-fay-lm-studio
+# openclaw-docker-chromium-vnc
 
 A self-hosted [OpenClaw](https://github.com/openclaw/openclaw) agent deployment, containerized with Docker and wired to **local LM Studio models** over the LAN. The image adds a real Chromium browser for the agent's browser tool and exposes its virtual display through a password-protected [noVNC](https://novnc.com/) web client.
 
