@@ -5,6 +5,12 @@ set -euo pipefail
 export DISPLAY
 GEOM="${VNC_GEOMETRY:-1280x800x24}"
 
+# Clean up a stale X lock/socket from a previous run so a container *restart*
+# (which reuses the filesystem) can start Xvfb instead of looping on
+# "Server is already active for display N". The entrypoint is the only thing
+# that uses this display, so any lock found at startup is necessarily stale.
+rm -f "/tmp/.X${DISPLAY#:}-lock" "/tmp/.X11-unix/X${DISPLAY#:}" 2>/dev/null || true
+
 # Virtual display for the headed browser
 Xvfb "$DISPLAY" -screen 0 "$GEOM" -nolisten tcp &
 
